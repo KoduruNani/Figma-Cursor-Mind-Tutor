@@ -1,7 +1,7 @@
-# Global owners - these users will be the default owners for everything in the repo
+# Global fallback owners
 * @KoduruNani
 
-# Backend (.NET Core) ownership
+# Backend ownership (.NET Core)
 /server/ @backend-lead @api-expert
 /server/Controllers/ @backend-lead
 /server/Services/ @backend-lead @service-expert
@@ -10,7 +10,7 @@
 /server/DTOs/ @backend-lead @api-expert
 /server/Migrations/ @backend-lead @data-expert
 
-# Frontend (React/TypeScript) ownership
+# Frontend ownership (React/TypeScript)
 /client/ @frontend-lead @ui-expert
 /client/src/ @frontend-lead
 /client/src/components/ @frontend-lead @ui-expert
@@ -20,53 +20,49 @@
 /client/src/utils/ @frontend-lead @utils-expert
 /client/src/types/ @frontend-lead @types-expert
 
-# Configuration and infrastructure
+# Architecture & Configuration
 /.cursor/ @devops-lead @architect
 /.github/ @devops-lead @architect
 /.github/workflows/ @devops-lead @ci-expert
 /.github/CODEOWNERS @devops-lead
-
-# Package and dependency files
-/package.json @frontend-lead @devops-lead
-/package-lock.json @frontend-lead @devops-lead
-/client/package.json @frontend-lead
-/client/package-lock.json @frontend-lead
-/server/server.csproj @backend-lead
-/server/*.csproj @backend-lead
-
-# Configuration files
-/appsettings.json @backend-lead @devops-lead
-/appsettings.Development.json @backend-lead @devops-lead
+/.gitignore @devops-lead
+/appsettings*.json @backend-lead @devops-lead
 /tsconfig.json @frontend-lead
 /client/tsconfig.json @frontend-lead
-/.gitignore @devops-lead
+
+# Dependencies
+/package*.json @frontend-lead @devops-lead
+/client/package*.json @frontend-lead
+/server/*.csproj @backend-lead
 
 # Documentation
 /README.md @tech-writer @product-owner
 /docs/ @tech-writer @product-owner
 *.md @tech-writer
 
-# Testing
+# Testing & QA
 /tests/ @qa-lead @test-automation-expert
 /**/*.test.* @qa-lead @test-automation-expert
 /**/*.spec.* @qa-lead @test-automation-expert
 
-# Security and authentication
+# Security
 /**/auth/** @security-expert @backend-lead
 /**/authentication/** @security-expert @backend-lead
 /**/authorization/** @security-expert @backend-lead
+/.env* @devops-lead @security-expert
+/**/secrets/** @security-expert @devops-lead
 
-# Database and data layer
+# Data & DB
 /**/database/** @data-expert @backend-lead
 /**/migrations/** @data-expert @backend-lead
 /**/entities/** @data-expert @backend-lead
 
-# API and services
+# API & Services
 /**/api/** @api-expert @backend-lead
 /**/services/** @service-expert @backend-lead
 /**/controllers/** @api-expert @backend-lead
 
-# UI/UX components
+# UI & UX
 /**/components/** @ui-expert @frontend-lead
 /**/pages/** @ui-expert @frontend-lead
 /**/styles/** @ui-expert @frontend-lead
@@ -79,33 +75,27 @@
 /**/zustand/** @state-expert @frontend-lead
 /**/context/** @state-expert @frontend-lead
 
-# Performance and optimization
+# Performance
 /**/performance/** @performance-expert @frontend-lead
 /**/optimization/** @performance-expert @frontend-lead
 
-# Error handling and logging
-/**/logging/** @backend-lead @devops-lead
+# Errors & Logging
 /**/errors/** @backend-lead @devops-lead
 /**/exceptions/** @backend-lead @devops-lead
+/**/logging/** @devops-lead @observability-expert
 
-# Build and deployment
+# CI/CD & Build
 /**/build/** @devops-lead @ci-expert
 /**/deploy/** @devops-lead @ci-expert
 /**/docker/** @devops-lead @ci-expert
 
-# Environment and secrets
-/.env* @devops-lead @security-expert
-/**/secrets/** @security-expert @devops-lead
+# Config & Environment
 /**/config/** @devops-lead @backend-lead
 
-# Third-party integrations
+# Integrations
 /**/integrations/** @integration-expert @backend-lead
 /**/external/** @integration-expert @backend-lead
 
-# Monitoring and observability
+# Monitoring
 /**/monitoring/** @devops-lead @observability-expert
 /**/metrics/** @devops-lead @observability-expert
-/**/logging/** @devops-lead @observability-expert
-
-# Fallback for any unassigned files
-* @KoduruNani @backend-lead @frontend-lead 
