@@ -1,0 +1,79 @@
+repo:
+  name: KoduruNani/Figma-Cursor-Mind-Tutor
+  description: "Full-stack application with .NET Core backend and React TypeScript frontend"
+
+ci:
+  enabled: true
+  pr_summarization: true
+  reviewer_suggestion: true
+  code_analysis: true
+  pre_review_checks: true
+  post_comment_on_pr: true
+  auto_assign_reviewers: true
+
+# Language-specific settings
+languages:
+  csharp:
+    enabled: true
+    rules_file: .cursor/rules/code-quality-csharp.yaml
+  typescript:
+    enabled: true
+    rules_file: .cursor/rules/code-quality-typescript.yaml
+  javascript:
+    enabled: true
+    rules_file: .cursor/rules/code-quality-typescript.yaml
+
+# Rule definitions
+rules:
+  - name: "C# Code Quality"
+    path: .cursor/rules/code-quality-csharp.yaml
+    enabled: true
+  - name: "TypeScript/React Code Quality"
+    path: .cursor/rules/code-quality-typescript.yaml
+    enabled: true
+  - name: "Architecture Guidelines"
+    path: .cursor/rules/architecture-guidelines.yaml
+    enabled: true
+
+# Custom prompts
+prompts:
+  summarize_pr: .cursor/prompts/summarize-pr.txt
+  reviewer_hint: .cursor/prompts/reviewer-hint.txt
+
+# Analysis settings
+analysis:
+  severity_levels:
+    - error
+    - warning
+    - info
+  max_issues_per_file: 10
+  ignore_patterns:
+    - "**/bin/**"
+    - "**/obj/**"
+    - "**/node_modules/**"
+    - "**/dist/**"
+    - "**/*.min.js"
+    - "**/*.min.css"
+
+# PR settings
+pr:
+  auto_comment: true
+  require_review: true
+  min_reviewers: 1
+  max_reviewers: 3
+  exclude_author: true
+
+# File patterns for analysis
+file_patterns:
+  csharp:
+    - "**/*.cs"
+    - "**/*.csproj"
+  typescript:
+    - "**/*.ts"
+    - "**/*.tsx"
+    - "**/*.js"
+    - "**/*.jsx"
+  config:
+    - "**/*.json"
+    - "**/*.yaml"
+    - "**/*.yml" 

@@ -1,0 +1,150 @@
+rules:
+  # TypeScript type safety
+  - name: "No use of 'any' types"
+    pattern: ":\\s*any\\b"
+    message: "Avoid using 'any' type. Use explicit types, unknown, or proper interfaces instead."
+    severity: error
+    exclude_patterns:
+      - "**/*.d.ts"
+      - "**/node_modules/**"
+
+  - name: "No implicit any"
+    pattern: "function\\s+\\w+\\s*\\([^)]*\\)\\s*\\{[^}]*\\}"
+    message: "Avoid implicit any types. Add explicit parameter and return types."
+    severity: warning
+
+  - name: "Use proper TypeScript interfaces"
+    pattern: "interface\\s+\\w+\\s*\\{[^}]*\\}"
+    message: "Ensure interfaces have proper type definitions and are not empty."
+    severity: info
+
+  # Console logging
+  - name: "No console.log in production"
+    pattern: "console\\.log\\("
+    message: "Avoid using console.log in production code. Use proper logging service or remove debug statements."
+    severity: warning
+    exclude_patterns:
+      - "**/src/index.tsx"
+      - "**/src/App.tsx"
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  - name: "No console methods in production"
+    pattern: "console\\.(warn|error|info|debug)\\("
+    message: "Use proper logging service instead of console methods in production code."
+    severity: info
+    exclude_patterns:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  # API calls and services
+  - name: "API calls must use service layer"
+    pattern: "fetch\\("
+    message: "Use service layer for API calls instead of direct fetch. Create/use API service classes."
+    severity: error
+    exclude_patterns:
+      - "**/services/**"
+      - "**/api/**"
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  - name: "Avoid direct axios calls"
+    pattern: "axios\\.(get|post|put|delete)\\("
+    message: "Use service layer for API calls instead of direct axios calls."
+    severity: error
+    exclude_patterns:
+      - "**/services/**"
+      - "**/api/**"
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  # React best practices
+  - name: "Use functional components only"
+    pattern: "class\\s+\\w+\\s+extends\\s+React\\.Component"
+    message: "Use functional components with hooks instead of class components."
+    severity: error
+    exclude_patterns:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  - name: "Use proper React imports"
+    pattern: "import\\s+React\\s+from\\s+['\"]react['\"]"
+    message: "Use named imports instead of default React import for better tree shaking."
+    severity: info
+
+  - name: "Use proper hook naming"
+    pattern: "const\\s+use[A-Z]\\w*\\s*="
+    message: "Custom hooks should start with 'use' and follow React hook naming conventions."
+    severity: warning
+
+  - name: "Avoid inline styles"
+    pattern: "style=\\{\\{[^}]+\\}\\}"
+    message: "Avoid inline styles. Use CSS classes or styled-components for better maintainability."
+    severity: info
+
+  # State management
+  - name: "Use centralized state management"
+    pattern: "useState\\("
+    message: "Consider using centralized state management (Redux/Zustand) for shared state instead of local useState."
+    severity: info
+    exclude_patterns:
+      - "**/components/**"
+      - "**/hooks/**"
+
+  - name: "Avoid prop drilling"
+    pattern: "\\w+\\s*=\\{\\w+\\}"
+    message: "Consider using context or state management to avoid prop drilling."
+    severity: info
+
+  # Performance
+  - name: "Use React.memo for expensive components"
+    pattern: "export\\s+default\\s+function\\s+\\w+\\s*\\("
+    message: "Consider using React.memo for components that receive stable props to optimize re-renders."
+    severity: info
+
+  - name: "Use useCallback for event handlers"
+    pattern: "onClick=\\{[^}]*\\}"
+    message: "Consider using useCallback for event handlers to prevent unnecessary re-renders."
+    severity: info
+
+  - name: "Use useMemo for expensive calculations"
+    pattern: "const\\s+\\w+\\s*=\\s*[^;]+\\?\\s*[^;]+\\s*:"
+    message: "Consider using useMemo for expensive calculations to optimize performance."
+    severity: info
+
+  # Code organization
+  - name: "Use proper file naming"
+    pattern: "export\\s+default\\s+function\\s+([A-Z]\\w*)"
+    message: "Component file names should match the component name (PascalCase)."
+    severity: info
+
+  - name: "Use proper import organization"
+    pattern: "import\\s+\\{[^}]+\\}\\s+from"
+    message: "Organize imports: React imports first, then third-party, then local imports."
+    severity: info
+
+  # Error handling
+  - name: "Use proper error boundaries"
+    pattern: "catch\\s*\\([^)]*\\)\\s*\\{[^}]*\\}"
+    message: "Consider using React Error Boundaries for component error handling."
+    severity: info
+
+  # Accessibility
+  - name: "Use proper ARIA labels"
+    pattern: "<(button|input|textarea|select)(?!.*aria-label)"
+    message: "Add proper ARIA labels for accessibility."
+    severity: info
+    exclude_patterns:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  # Testing
+  - name: "Use proper test naming"
+    pattern: "describe\\s*\\(['\"][^'\"]*['\"]"
+    message: "Use descriptive test names that explain the expected behavior."
+    severity: info
+
+  - name: "Use proper test structure"
+    pattern: "it\\s*\\(['\"][^'\"]*['\"]"
+    message: "Use proper test structure: Arrange, Act, Assert pattern."
+    severity: info 

@@ -1,0 +1,112 @@
+rules:
+  # Production logging rules
+  - name: "No Console.WriteLine in production"
+    pattern: "Console\\.WriteLine\\("
+    message: "Avoid using Console.WriteLine in production code. Use proper logging framework (ILogger) instead."
+    severity: warning
+    exclude_patterns:
+      - "**/Program.cs"
+      - "**/Startup.cs"
+      - "**/*.Development.cs"
+
+  - name: "No Console.Write in production"
+    pattern: "Console\\.Write\\("
+    message: "Avoid using Console.Write in production code. Use proper logging framework (ILogger) instead."
+    severity: warning
+    exclude_patterns:
+      - "**/Program.cs"
+      - "**/Startup.cs"
+      - "**/*.Development.cs"
+
+  # Async/await best practices
+  - name: "Avoid async void methods"
+    pattern: "async void\\s+\\w+\\s*\\("
+    message: "Avoid async void methods. Use async Task for methods that don't return a value, or async Task<T> for methods that return a value."
+    severity: error
+    exclude_patterns:
+      - "**/event handlers**"
+
+  - name: "Use ConfigureAwait(false) for library code"
+    pattern: "await\\s+[^;]+(?!\\.ConfigureAwait\\(false\\))"
+    message: "Consider using ConfigureAwait(false) for library code to avoid potential deadlocks."
+    severity: info
+    exclude_patterns:
+      - "**/Controllers/**"
+      - "**/Pages/**"
+      - "**/Views/**"
+
+  # Dependency Injection rules
+  - name: "Use Dependency Injection for services"
+    pattern: "new\\s+\\w+Service\\("
+    message: "Use Dependency Injection instead of direct instantiation. Register services in DI container and inject them."
+    severity: warning
+
+  - name: "Avoid static service access"
+    pattern: "\\w+Service\\.\\w+\\("
+    message: "Avoid static service access. Use dependency injection to inject services."
+    severity: warning
+    exclude_patterns:
+      - "**/Extensions/**"
+      - "**/Helpers/**"
+
+  # Exception handling
+  - name: "Avoid empty catch blocks"
+    pattern: "catch\\s*\\([^)]*\\)\\s*\\{\\s*\\}"
+    message: "Avoid empty catch blocks. At minimum, log the exception or rethrow it."
+    severity: error
+
+  - name: "Use specific exception types"
+    pattern: "catch\\s*\\(Exception\\s+\\w+\\)"
+    message: "Consider catching specific exception types instead of generic Exception."
+    severity: info
+
+  # Code organization
+  - name: "Avoid magic numbers"
+    pattern: "\\b\\d{3,}\\b"
+    message: "Consider extracting magic numbers into named constants."
+    severity: info
+    exclude_patterns:
+      - "**/Migrations/**"
+      - "**/Data/**"
+
+  - name: "Use string interpolation"
+    pattern: "string\\.Format\\("
+    message: "Prefer string interpolation ($\"...\") over string.Format for better readability."
+    severity: info
+
+  # Naming conventions
+  - name: "Use PascalCase for public methods"
+    pattern: "public\\s+\\w+\\s+[a-z]\\w*\\s*\\("
+    message: "Public methods should use PascalCase naming convention."
+    severity: warning
+
+  - name: "Use PascalCase for public properties"
+    pattern: "public\\s+\\w+\\s+[a-z]\\w*\\s*\\{\\s*get;"
+    message: "Public properties should use PascalCase naming convention."
+    severity: warning
+
+  # Performance
+  - name: "Use StringBuilder for string concatenation in loops"
+    pattern: "\\+=\\s*\"[^\"]*\""
+    message: "Consider using StringBuilder for string concatenation in loops for better performance."
+    severity: info
+
+  # Security
+  - name: "Avoid hardcoded connection strings"
+    pattern: "Server=[^;]+;Database=[^;]+;"
+    message: "Avoid hardcoded connection strings. Use configuration files or environment variables."
+    severity: error
+    exclude_patterns:
+      - "**/appsettings.Development.json"
+      - "**/appsettings.json"
+
+  # LINQ best practices
+  - name: "Use Any() instead of Count() > 0"
+    pattern: "\\.Count\\(\\)\\s*>\\s*0"
+    message: "Use Any() instead of Count() > 0 for better performance when checking if collection has items."
+    severity: info
+
+  - name: "Use FirstOrDefault() instead of First() when appropriate"
+    pattern: "\\.First\\(\\)"
+    message: "Consider using FirstOrDefault() instead of First() to avoid exceptions when no elements exist."
+    severity: info 

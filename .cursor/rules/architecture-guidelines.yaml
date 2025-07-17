@@ -1,0 +1,139 @@
+rules:
+  # Backend Architecture (C#)
+  - name: "API logic must be in service layer"
+    pattern: "public\\s+\\w+\\s+\\w+\\s*\\([^)]*\\)\\s*\\{[^}]*return\\s+[^;]+;"
+    message: "Move business logic from controllers to service layer. Controllers should only handle HTTP concerns."
+    severity: error
+    include_patterns:
+      - "**/Controllers/**"
+
+  - name: "Controllers should be thin"
+    pattern: "public\\s+class\\s+\\w+Controller\\s*:\\s*ControllerBase\\s*\\{[^}]{200,}\\}"
+    message: "Controllers should be thin and delegate business logic to services."
+    severity: warning
+    include_patterns:
+      - "**/Controllers/**"
+
+  - name: "Use repository pattern"
+    pattern: "DbContext\\."
+    message: "Use repository pattern instead of direct DbContext access in services."
+    severity: warning
+    exclude_patterns:
+      - "**/Data/**"
+      - "**/Repositories/**"
+
+  - name: "Services should be registered in DI"
+    pattern: "services\\.AddScoped\\("
+    message: "Ensure all services are properly registered in the DI container."
+    severity: info
+    include_patterns:
+      - "**/Program.cs"
+      - "**/Startup.cs"
+
+  # Frontend Architecture (React/TypeScript)
+  - name: "Use centralized state management"
+    pattern: "useState\\("
+    message: "Use centralized state management (Redux/Zustand) for shared state instead of local useState."
+    severity: warning
+    exclude_patterns:
+      - "**/components/**"
+      - "**/hooks/**"
+      - "**/store/**"
+
+  - name: "API calls must use service layer"
+    pattern: "fetch\\("
+    message: "Use service layer for API calls instead of direct fetch. Create/use API service classes."
+    severity: error
+    exclude_patterns:
+      - "**/services/**"
+      - "**/api/**"
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  - name: "Components should be pure"
+    pattern: "export\\s+default\\s+function\\s+\\w+\\s*\\([^)]*\\)\\s*\\{[^}]*useEffect\\("
+    message: "Consider splitting components with side effects into separate components."
+    severity: info
+
+  - name: "Use proper folder structure"
+    pattern: "import\\s+['\"][^'\"]*['\"]"
+    message: "Follow proper folder structure: components/, pages/, services/, hooks/, utils/, types/"
+    severity: info
+
+  # Cross-cutting concerns
+  - name: "Use proper error handling"
+    pattern: "try\\s*\\{[^}]*\\}\\s*catch\\s*\\([^)]*\\)\\s*\\{[^}]*\\}"
+    message: "Implement proper error handling with logging and user feedback."
+    severity: warning
+
+  - name: "Use proper logging"
+    pattern: "Console\\.WriteLine\\("
+    message: "Use proper logging framework (ILogger) instead of Console.WriteLine."
+    severity: error
+    exclude_patterns:
+      - "**/Program.cs"
+      - "**/Startup.cs"
+
+  - name: "Use configuration for settings"
+    pattern: "const\\s+\\w+\\s*=\\s*['\"][^'\"]*['\"]"
+    message: "Use configuration files or environment variables instead of hardcoded values."
+    severity: warning
+    exclude_patterns:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  # Security
+  - name: "Validate input parameters"
+    pattern: "public\\s+\\w+\\s+\\w+\\s*\\([^)]*\\)\\s*\\{"
+    message: "Validate input parameters in public methods."
+    severity: warning
+
+  - name: "Use proper authentication"
+    pattern: "\\[Authorize\\]"
+    message: "Ensure proper authentication and authorization is implemented."
+    severity: info
+
+  # Performance
+  - name: "Use async/await properly"
+    pattern: "async\\s+\\w+\\s+\\w+\\s*\\([^)]*\\)\\s*\\{[^}]*return\\s+[^;]+;"
+    message: "Ensure async methods are properly implemented with await."
+    severity: warning
+
+  - name: "Use proper caching"
+    pattern: "public\\s+\\w+\\s+Get\\w+\\s*\\([^)]*\\)"
+    message: "Consider implementing caching for frequently accessed data."
+    severity: info
+
+  # Testing
+  - name: "Write unit tests"
+    pattern: "public\\s+class\\s+\\w+\\s*\\{"
+    message: "Ensure all public classes and methods have corresponding unit tests."
+    severity: info
+    exclude_patterns:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+      - "**/Tests/**"
+
+  - name: "Use dependency injection for testing"
+    pattern: "new\\s+\\w+\\("
+    message: "Use dependency injection to make classes testable."
+    severity: warning
+    exclude_patterns:
+      - "**/*.test.*"
+      - "**/*.spec.*"
+
+  # Documentation
+  - name: "Add XML documentation"
+    pattern: "public\\s+\\w+\\s+\\w+\\s*\\([^)]*\\)"
+    message: "Add XML documentation for public methods and classes."
+    severity: info
+    include_patterns:
+      - "**/*.cs"
+
+  - name: "Add JSDoc comments"
+    pattern: "export\\s+(function|const)\\s+\\w+"
+    message: "Add JSDoc comments for exported functions and components."
+    severity: info
+    include_patterns:
+      - "**/*.ts"
+      - "**/*.tsx" 
